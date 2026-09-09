@@ -92,7 +92,7 @@ export default function Tasks() {
             <TaskRow key={task.id} task={task} />
           ))}
           {tasks?.length === 0 && (
-            <p style={{ padding: 'var(--space-8)', textAlign: 'center', color: 'var(--color-text-muted)' }}>No tasks found</p>
+            <p style={{ padding: 'var(--space-8)', textAlign: 'center', color: 'var(--color-text-muted)' }}>No tasks yet — create your first one to get started</p>
           )}
         </div>
       ) : (

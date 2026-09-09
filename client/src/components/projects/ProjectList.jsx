@@ -11,7 +11,7 @@ export default function ProjectList({ projects }) {
   if (!projects?.length) {
     return (
       <p style={{ color: 'var(--color-text-muted)', textAlign: 'center', padding: 'var(--space-8)' }}>
-        No projects found
+        No projects yet — create your first one to get started
       </p>
     );
   }

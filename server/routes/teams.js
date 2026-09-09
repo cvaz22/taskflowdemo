@@ -10,6 +10,42 @@ router.get('/', (req, res) => {
   res.json(members);
 });
 
+// GET /api/team/workload — per-member open task counts by priority, weighted overload score
+router.get('/workload', (req, res) => {
+  const db = getDb();
+  const members = db.prepare('SELECT * FROM team_members ORDER BY id').all();
+  const openTasks = db.prepare("SELECT assignee_id, priority FROM tasks WHERE status != 'done'").all();
+
+  const weights = { urgent: 3, high: 2, medium: 1, low: 0.5 };
+
+  const workload = members.map((member) => {
+    const memberTasks = openTasks.filter((t) => t.assignee_id === member.id);
+    const counts = { urgent: 0, high: 0, medium: 0, low: 0 };
+    let score = 0;
+    memberTasks.forEach((t) => {
+      counts[t.priority] = (counts[t.priority] || 0) + 1;
+      score += weights[t.priority] || 0;
+    });
+
+    return {
+      id: member.id,
+      name: member.name,
+      role: member.role,
+      avatar_color: member.avatar_color,
+      counts,
+      totalOpen: memberTasks.length,
+      score,
+    };
+  });
+
+  const average = workload.reduce((sum, m) => sum + m.score, 0) / (workload.length || 1);
+  const threshold = average * 2;
+
+  const result = workload.map((m) => ({ ...m, overloaded: m.score > threshold }));
+
+  res.json(result);
+});
+
 // GET /api/team/:id — single team member
 router.get('/:id', (req, res) => {
   const db = getDb();

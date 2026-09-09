@@ -19,7 +19,8 @@ export default function ProjectForm({ onSubmit, onCancel, initial }) {
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Enter project name"
+          placeholder="e.g. Q3 Redesign"
+          required
         />
       </div>
       <div className="form-group">
@@ -39,7 +40,7 @@ export default function ProjectForm({ onSubmit, onCancel, initial }) {
           <option value="completed">Completed</option>
         </select>
       </div>
-      <div style={{ display: 'flex', gap: 'var(--space-2)', justifyContent: 'flex-end' }}>
+      <div style={{ display: 'flex', gap: 'var(--space-2)', justifyContent: 'flex-end', marginTop: 'var(--space-4)' }}>
         {onCancel && <Button variant="ghost" onClick={onCancel} type="button">Cancel</Button>}
         <Button type="submit">{initial ? 'Update' : 'Create'} Project</Button>
       </div>
