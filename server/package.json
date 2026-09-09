@@ -10,7 +10,7 @@
     "db:reset": "rm -f taskflow.db && node -e \"import('./db/connection.js')\""
   },
   "dependencies": {
-    "better-sqlite3": "^11.1.2",
+    "better-sqlite3": "^13.0.0",
     "cors": "^2.8.5",
     "express": "^4.19.2"
   },
